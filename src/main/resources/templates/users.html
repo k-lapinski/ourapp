@@ -33,16 +33,21 @@
   <table class="table table-striped table-bordered table-hover">
     <thead class="table-dark">
     <tr>
+      <th>Id</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Email</th>
+      <th> </th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user: ${users}">
+      <td th:text="${user.id}"></td>
       <td th:text="${user.firstName}"></td>
       <td th:text="${user.lastName}"></td>
       <td th:text="${user.email}"></td>
+      <td><a th:href="@{/user/{id}(id=${user.id})}">Details</a></td>
+      <td><a th:href="@{/deleteUser/{id}(id=${user.id})}">Delete</a></td>
     </tr>
     </tbody>
   </table>

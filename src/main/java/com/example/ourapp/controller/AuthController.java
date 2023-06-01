@@ -71,5 +71,4 @@ public class AuthController {
         model.addAttribute("users", users);
         return "users";
     }
-
 }

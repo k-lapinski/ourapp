@@ -44,6 +44,7 @@ public class ItemServiceImpl implements ItemService {
 
     private ItemDto mapToItemDto(Item item){
         ItemDto itemDto = new ItemDto();
+        itemDto.setId(item.getId());
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
         return itemDto;
@@ -52,6 +53,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDto> findAllItems() {
         List<Item> items = itemRepository.findAll();
+        return items.stream()
+                .map((item) -> mapToItemDto(item))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ItemDto> findMyItems(String mail) {
+        List<Item> items = itemRepository.findMyItemsByMail(mail);
         return items.stream()
                 .map((item) -> mapToItemDto(item))
                 .collect(Collectors.toList());

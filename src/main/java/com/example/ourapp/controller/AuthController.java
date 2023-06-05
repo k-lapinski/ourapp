@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     // handler method to handle home page request
-    @GetMapping("index")
+    @GetMapping("/index")
     public String home(){
         return "index";
     }
@@ -71,4 +71,6 @@ public class AuthController {
         model.addAttribute("users", users);
         return "users";
     }
+
+
 }

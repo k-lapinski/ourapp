@@ -24,15 +24,14 @@
   <div class="row col-md-8 offset-md-2">
     <div class="card">
       <div th:if="${param.success}">
-        <div class="alert alert-info">You've successfully registered
-          to our app!</div>
+        <div class="alert alert-info">Succes!</div>
       </div>
       <div class="card-header">
-        <h2 class="text-center">Registration</h2>
+        <h2 class="text-center">Update</h2>
       </div>
       <div class="card-body">
-        <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
-
+        <form method="post" role="form" th:action="@{/mydata/saveme}" th:object="${user}">
+          <input type="hidden" th:field="*{id}" />
           <div class="form-group mb-3">
             <label class="form-label">First Name</label>
             <input class="form-control"
@@ -41,6 +40,7 @@
                    placeholder="Enter first name"
                    th:field="*{firstName}"
                    type="text"
+                   th:required="true"
             />
             <p th:errors="*{firstName}" class="text-danger"
                th:if="${#fields.hasErrors('firstName')}">
@@ -55,23 +55,19 @@
                    placeholder="Enter last name"
                    th:field="*{lastName}"
                    type="text"
+                   th:required="true"
             />
             <p th:errors="*{lastName}" class="text-danger"
                th:if="${#fields.hasErrors('lastName')}">
             </p>
           </div>
           <div class="form-group mb-3">
-            <label class="form-label">Email</label>
             <input class="form-control"
                    id="email"
                    name="email"
-                   placeholder="Enter email address"
                    th:field="*{email}"
-                   type="email"
+                   type="hidden"
             />
-            <p th:errors="*{email}" class="text-danger"
-               th:if="${#fields.hasErrors('email')}">
-            </p>
           </div>
           <div class="form-group mb-3">
             <label class="form-label">Password</label>
@@ -80,18 +76,14 @@
                    name="password"
                    placeholder="Enter password"
                    th:field="*{password}"
+                   th:required="true"
                    type="password"
             />
             <p th:errors="*{password}" class="text-danger"
                th:if="${#fields.hasErrors('password')}">
             </p>
           </div>
-
-          <div class="form-group mb-3">
-            <button class="btn btn-primary" type="submit">Register</button>
-            <span>Already registered? <a href="/" th:href="@{/login}">Login
-                             here</a></span>
-          </div>
+          <button class="btn btn-primary" type="submit">Save</button>
         </form>
       </div>
     </div>

@@ -33,10 +33,10 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("item/delete/{id}")
+    @GetMapping("items/delete/{id}")
     public String deleteItem(@PathVariable(value = "id") Long id) {
         itemService.deleteItem(id);
-        return "redirect:/";
+        return "redirect:/myitems";
     }
 
     @GetMapping("/items")
@@ -51,13 +51,14 @@ public class ItemController {
         User user = userService.findUserByEmail(username);
         item.setOwnerMail(user.getEmail());
         itemService.saveItem(item);
-        return "redirect:/items";
+        return "redirect:/myitems";
     }
 
     @GetMapping("/myitems")
-    public String users(Model model){
-        List<ItemDto> items = itemService.findAllItems();
+    public String showMyItems(Model model){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<ItemDto> items = itemService.findMyItems(username);
         model.addAttribute("items", items);
-        return "myitems";
+        return "my-items";
     }
 }

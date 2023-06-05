@@ -15,4 +15,6 @@ public interface ItemService {
     void deleteItem(Long id);
 
     List<ItemDto> findAllItems();
+
+    List<ItemDto> findMyItems(String mail);
 }

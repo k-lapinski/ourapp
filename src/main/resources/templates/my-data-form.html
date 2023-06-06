@@ -41,6 +41,8 @@
                    th:field="*{firstName}"
                    type="text"
                    th:required="true"
+                   th:maxlength="20"
+                   th:minlength="3"
             />
             <p th:errors="*{firstName}" class="text-danger"
                th:if="${#fields.hasErrors('firstName')}">
@@ -56,6 +58,8 @@
                    th:field="*{lastName}"
                    type="text"
                    th:required="true"
+                   th:maxlength="50"
+                   th:minlength="3"
             />
             <p th:errors="*{lastName}" class="text-danger"
                th:if="${#fields.hasErrors('lastName')}">
@@ -78,10 +82,20 @@
                    th:field="*{password}"
                    th:required="true"
                    type="password"
+                   th:maxlength="50"
+                   th:minlength="5"
             />
             <p th:errors="*{password}" class="text-danger"
                th:if="${#fields.hasErrors('password')}">
             </p>
+          </div>
+          <div class="form-group mb-3">
+            <input class="form-control"
+                   id="date"
+                   name="date"
+                   th:field="*{date}"
+                   type="hidden"
+            />
           </div>
           <button class="btn btn-primary" type="submit">Save</button>
         </form>

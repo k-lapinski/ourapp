@@ -53,6 +53,8 @@ public class UserController {
     public String editUser(@Valid @ModelAttribute("user") UserDto userDto,
                            BindingResult result,
                            Model model,@RequestParam("role") String role){
+        userDto.setFirstName(userDto.getFirstName().substring(0, 1).toUpperCase()+userDto.getFirstName().substring(1));
+        userDto.setLastName(userDto.getLastName().substring(0, 1).toUpperCase()+userDto.getLastName().substring(1));
         userServiceImpl.editUser(userDto, role);
 
 
@@ -75,6 +77,8 @@ public class UserController {
     public String editMe(@Valid @ModelAttribute("user") UserDto userDto,
                            BindingResult result,
                            Model model, @ModelAttribute("role") String role){
+        userDto.setFirstName(userDto.getFirstName().substring(0, 1).toUpperCase()+userDto.getFirstName().substring(1));
+        userDto.setLastName(userDto.getLastName().substring(0, 1).toUpperCase()+userDto.getLastName().substring(1));
         userServiceImpl.editUser(userDto, role);
 
         return "redirect:/mydata?success";

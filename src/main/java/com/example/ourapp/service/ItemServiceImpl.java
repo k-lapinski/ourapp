@@ -28,9 +28,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void saveItem(ItemDto itemDto) {
         Item item = new Item();
+        item.setId(itemDto.getId());
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());
         item.setOwnerMail(itemDto.getOwnerMail());
+        item.setCategory(itemDto.getCategory());
+        item.setDate(itemDto.getDate());
+        item.setLink(itemDto.getLink());
+        item.setSharedInfo(itemDto.getSharedInfo());
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(username);
         item.setUser(user);
@@ -42,11 +47,16 @@ public class ItemServiceImpl implements ItemService {
         itemRepository.deleteById(id);
     }
 
-    private ItemDto mapToItemDto(Item item){
+    public ItemDto mapToItemDto(Item item){
         ItemDto itemDto = new ItemDto();
         itemDto.setId(item.getId());
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
+        itemDto.setOwnerMail(item.getOwnerMail());
+        itemDto.setLink(item.getLink());
+        itemDto.setCategory(item.getCategory());
+        itemDto.setDate(item.getDate());
+        itemDto.setSharedInfo(item.getSharedInfo());
         return itemDto;
     }
 

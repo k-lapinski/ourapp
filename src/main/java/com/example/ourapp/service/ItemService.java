@@ -17,4 +17,5 @@ public interface ItemService {
     List<ItemDto> findAllItems();
 
     List<ItemDto> findMyItems(String mail);
+
 }

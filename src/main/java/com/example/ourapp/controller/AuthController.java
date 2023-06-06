@@ -4,6 +4,7 @@ import com.example.ourapp.dto.UserDto;
 import com.example.ourapp.model.User;
 import com.example.ourapp.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +25,9 @@ public class AuthController {
 
     // handler method to handle home page request
     @GetMapping("/index")
-    public String home(){
+    public String home(Model model){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("username", username);
         return "index";
     }
 
@@ -55,11 +58,16 @@ public class AuthController {
                     "There is already an account registered with the same email");
         }
 
+        if(userDto.getDate().getYear()>2005) {
+            result.rejectValue("date", null, "app is for min 18 age");
+        }
+
         if(result.hasErrors()){
             model.addAttribute("user", userDto);
             return "/register";
         }
-
+        userDto.setFirstName(userDto.getFirstName().substring(0, 1).toUpperCase()+userDto.getFirstName().substring(1));
+        userDto.setLastName(userDto.getLastName().substring(0, 1).toUpperCase()+userDto.getLastName().substring(1));
         userService.saveUser(userDto);
         return "redirect:/register?success";
     }

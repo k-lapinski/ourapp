@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -27,6 +30,9 @@ public class User
 
     @Column(nullable=false, unique=true)
     private String email;
+
+    @Column(nullable = false)
+    private LocalDate date;
 
     @Column(nullable=false)
     private String password;

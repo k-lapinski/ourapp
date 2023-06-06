@@ -1,11 +1,14 @@
 package com.example.ourapp.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,4 +22,12 @@ public class ItemDto {
     private String description;
     @NotEmpty
     private String ownerMail;
+    @NotEmpty
+    private String link;
+    @NotEmpty
+    private LocalDate date;
+    @NotEmpty
+    private String category;
+    @NotEmpty
+    private Boolean sharedInfo;
 }

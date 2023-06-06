@@ -34,12 +34,13 @@ public class UserServiceImpl implements UserService {
         user.setId(userDto.getId());
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
+        user.setDate(userDto.getDate());
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_USER");
+        Role role = roleRepository.findByName("ROLE_ADMIN");
         if(role == null){
-            role = checkRoleExist("ROLE_USER");
+            role = checkRoleExist("ROLE_ADMIN");
         }
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setId(userDto.getId());
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
+        user.setDate(userDto.getDate());
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
@@ -87,6 +89,7 @@ public class UserServiceImpl implements UserService {
         userDto.setLastName(str[1]);
         userDto.setEmail(user.getEmail());
         userDto.setId(user.getId());
+        userDto.setDate(user.getDate());
         return userDto;
     }
 

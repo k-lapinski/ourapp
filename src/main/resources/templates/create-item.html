@@ -79,6 +79,7 @@
                             <input class="form-control"
                                    type="text" th:field="*{link}"
                                    th:required="false"
+                                   th:maxlength="500"
                             />
                         </div>
                         <div class="mb-3">
@@ -92,6 +93,7 @@
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Create</button>
+                            <button class="btn btn-secondary"><a th:href="@{/myitems}">Cancel</a></button>
                         </span>
                         </div>
                     </form>
@@ -102,3 +104,14 @@
 </div>
 </body>
 </html>
+
+
+<style>
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+    a:hover {
+        color: gray;
+    }
+</style>

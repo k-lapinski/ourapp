@@ -83,4 +83,9 @@ public class UserController {
 
         return "redirect:/mydata?success";
     }
+
+    @GetMapping("/users/cancel")
+    public String cancelUser(){
+        return "/users";
+    }
 }

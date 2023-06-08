@@ -18,28 +18,28 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item" th:if="${username==null}">
+        <li class="nav-item" th:classappend="${!username.equals('anonymousUser')} ? 'nonActiveLink'">
           <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
         </li>
-        <li class="nav-item" th:if="${username==null}">
+        <li class="nav-item"th:classappend="${!username.equals('anonymousUser')} ? 'nonActiveLink'">
           <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
         </li>
-          <li class="nav-item" th:if="${!username.equals('anonymousUser')}">
+          <li class="nav-item" th:classappend="${username.equals('anonymousUser')} ? 'nonActiveLink'">
             <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
           </li>
-        <li class="nav-item" th:if="${username!=null}">
+        <li class="nav-item" th:if="${username!=null}" th:classappend="${username.equals('anonymousUser')} ? 'nonActiveLink'">
           <a class="nav-link active" aria-current="page" th:href="@{/mydata}">My Data</a>
         </li>
-          <li class="nav-item" th:if="${username!=null}">
+          <li class="nav-item" th:if="${username!=null}" th:classappend="${username.equals('anonymousUser')} ? 'nonActiveLink'">
             <a class="nav-link active" aria-current="page" th:href="@{/items}">Create Item</a>
           </li>
-          <li class="nav-item" th:if="${username!=null}">
+          <li class="nav-item" th:if="${username!=null}" th:classappend="${username.equals('anonymousUser')} ? 'nonActiveLink'">
             <a class="nav-link active" aria-current="page" th:href="@{/myitems}">My Items</a>
           </li>
-        <li class="nav-item" th:if="${username!=null}">
+        <li class="nav-item" th:if="${username!=null}" th:classappend="${username.equals('anonymousUser')} ? 'nonActiveLink'">
           <a class="nav-link active" aria-current="page" th:href="@{/allitems}">All Items</a>
         </li>
-          <div th:if="${username!=null}">
+          <div th:if="${username!=null}" th:classappend="${username.equals('anonymousUser')} ? 'nonActiveLink'">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" th:href="@{/users}">Users</a>
             </li>
@@ -51,6 +51,42 @@
   <div class="row">
     <h1 class="text-center"></h1>
   </div>
+  <div class="star"></div>
 </div>
 </body>
 </html>
+
+
+
+<style>
+  .nonActiveLink {
+    display: none;
+  }
+
+  .star {
+    margin-top: 250px;
+    width: 200px;
+    height: 200px;
+    background-color: lawngreen;
+    transform: rotate(45deg);
+    animation: twinkle 2s linear infinite;
+  }
+
+  @keyframes twinkle {
+    0% {
+      transform: rotate(45deg) scale(1);
+    }
+    50% {
+      transform: rotate(45deg) scale(1.2);
+    }
+    100% {
+      transform: rotate(45deg) scale(1);
+    }
+  }
+
+  .container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+  }
+</style>

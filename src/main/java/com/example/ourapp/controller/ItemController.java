@@ -107,4 +107,28 @@ public class ItemController {
             itemService.saveItem(itemDto);
         return "redirect:/myitems";
     }
+
+    @GetMapping("/items/edit/{id}")
+    public String showEditItemForm(@PathVariable("id") Long id, Model model){
+        Item item = itemRepository.findItemById(id);
+        ItemDto itemDto = itemServiceImpl.mapToItemDto(item);
+        itemDto.setDate(item.getDate());
+        model.addAttribute("item", itemDto);
+
+        return "edit-item-form";
+    }
+
+    @PostMapping("/items/edit/save")
+    public String editUser(@ModelAttribute("item") ItemDto itemDto,
+                           BindingResult result,
+                           Model model){
+        itemServiceImpl.saveItem(itemDto);
+
+        return "redirect:/myitems?success";
+    }
+
+    @GetMapping("/items/cancel")
+    public String cancelItem(){
+        return "/myitems";
+    }
 }

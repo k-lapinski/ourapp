@@ -4,7 +4,7 @@
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>StoreEverything</title>
+  <title>StoreEverything - My items</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -41,11 +41,44 @@
         </div>
       </ul>
     </div>
+    <div class="d-flex">
+      <button class="btn btn-warning">Tryb kontrastu</button >
+    </div>
   </div>
 </nav>
 <div class="container">
   <div class="row">
     <h1> My Items </h1>
+  </div>
+  <div class="row row-cols-auto">
+    <div class="col">
+      <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='date', sortDirection='asc', filterType = ${param.filterType})}">Sort by date (ASC)</a></button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='category', sortDirection='asc', filterType = ${param.filterType})}">Sort by category (ASC)</a></button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='alpha', sortDirection='asc', filterType = ${param.filterType})}">Sort alphabetically (ASC)</a></button>
+    </div>
+  </div>
+  <div class="row row-cols-auto">
+    <div class="col">
+      <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='date', sortDirection='desc', filterType = ${param.filterType})}">Sort by date (DESC)</a></button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='category', sortDirection='desc', filterType = ${param.filterType})}">Sort by category (DESC)</a></button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='alpha', sortDirection='desc', filterType = ${param.filterType})}">Sort alphabetically (DESC)</a></button>
+    </div>
+  </div>
+  <div class="row row-cols-auto">
+    <div class="col">
+      <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField=${param.sortField}, sortDirection=${param.sortDirection}, filterType = 'date')}">Filter by current date</a></button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField=${param.sortField}, sortDirection=${param.sortDirection}, filterType = 'category')}">Filter by most popular category</a></button>
+    </div>
   </div>
   <table class="table table-striped table-bordered table-hover">
     <thead class="table-dark">

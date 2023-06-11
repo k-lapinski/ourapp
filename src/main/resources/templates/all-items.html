@@ -4,7 +4,7 @@
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>StoreEverything</title>
+  <title>StoreEverything - All Items</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -41,11 +41,14 @@
         </div>
       </ul>
     </div>
+    <div class="d-flex">
+      <button class="btn btn-warning" >Tryb kontrastu</button >
+    </div>
   </div>
 </nav>
 <div class="container">
   <div class="row">
-    <h1> My Items </h1>
+    <h1> All Items </h1>
   </div>
   <table class="table table-striped table-bordered table-hover">
     <thead class="table-dark">
@@ -56,6 +59,7 @@
       <th>Link</th>
       <th>Category</th>
       <th>Create Date</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -68,8 +72,12 @@
       <td th:text="${item.link}"></td>
       <td th:text="${item.category}"></td>
       <td th:text="${item.date}"></td>
-      <td th:if="${item.ownerMail.equals(username)}"><button type="button" class="btn btn-danger"><a th:href="@{/items/delete/{id}(id=${item.id})}">Delete</a></button></td>
+      <td th:if="${item.ownerMail.equals(username)}">
+        <button type="button" class="btn btn-danger"><a th:href="@{/items/delete/{id}(id=${item.id})}">Delete</a></button>
+      </td>
+      <td th:if="${!item.ownerMail.equals(username)}">
 
+      </td>
     </tr>
     </tbody>
   </table>

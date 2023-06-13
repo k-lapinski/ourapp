@@ -36,10 +36,10 @@ public class SpringSecurity {
                                 .requestMatchers("/items/share/**").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/items/edit/**").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/items/cancel/**").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/myitems/**").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/myitems").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/myitems/**").hasAnyRole("ADMIN", "USER", "GUEST")
+                                .requestMatchers("/myitems").hasAnyRole("ADMIN", "USER", "GUEST")
                                 .requestMatchers("/user/**").hasRole("ADMIN")
-                                .requestMatchers("/mydata/**").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/mydata/**").hasAnyRole("ADMIN", "USER", "GUEST")
                                 .requestMatchers("/allitems/**").hasAnyRole("ADMIN", "USER")
                 ).formLogin(
                         form -> form

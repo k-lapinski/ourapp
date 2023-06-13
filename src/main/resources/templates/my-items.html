@@ -10,7 +10,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
 </head>
-<body>
+<body id="content">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/index}">StoreEverything</a>
@@ -42,7 +42,7 @@
       </ul>
     </div>
     <div class="d-flex">
-      <button class="btn btn-warning">Tryb kontrastu</button >
+      <button id="contrastButton" class="btn btn-warning" onclick="toggleContrast()">Contrast mode</button >
     </div>
   </div>
 </nav>
@@ -50,35 +50,24 @@
   <div class="row">
     <h1> My Items </h1>
   </div>
-  <div class="row row-cols-auto">
-    <div class="col">
+  <div class="filterBtns">
       <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='date', sortDirection='asc', filterType = ${param.filterType})}">Sort by date (ASC)</a></button>
-    </div>
-    <div class="col">
+
       <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='category', sortDirection='asc', filterType = ${param.filterType})}">Sort by category (ASC)</a></button>
-    </div>
-    <div class="col">
+
       <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='alpha', sortDirection='asc', filterType = ${param.filterType})}">Sort alphabetically (ASC)</a></button>
-    </div>
-  </div>
-  <div class="row row-cols-auto">
-    <div class="col">
+
+
       <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='date', sortDirection='desc', filterType = ${param.filterType})}">Sort by date (DESC)</a></button>
-    </div>
-    <div class="col">
+
       <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='category', sortDirection='desc', filterType = ${param.filterType})}">Sort by category (DESC)</a></button>
-    </div>
-    <div class="col">
+
       <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField='alpha', sortDirection='desc', filterType = ${param.filterType})}">Sort alphabetically (DESC)</a></button>
-    </div>
-  </div>
-  <div class="row row-cols-auto">
-    <div class="col">
+
+
       <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField=${param.sortField}, sortDirection=${param.sortDirection}, filterType = 'date')}">Filter by current date</a></button>
-    </div>
-    <div class="col">
+
       <button type="button" class="btn btn-secondary"><a th:href="@{/myitems(sortField=${param.sortField}, sortDirection=${param.sortDirection}, filterType = 'category')}">Filter by most popular category</a></button>
-    </div>
   </div>
   <table class="table table-striped table-bordered table-hover">
     <thead class="table-dark">
@@ -119,4 +108,73 @@
   a:hover {
     color: gray;
   }
+
+  .filterBtns {
+    margin-bottom: 5px;
+  }
+
+  .filterBtns  a {
+    font-size: 12.8px;
+  }
+  .contrast {
+    color: yellow;
+    background-color: black;
+  }
+
+  .contrast td {
+    color: yellow;
+    background-color: black;
+  }
+
+  .contrast tr {
+    color: yellow;
+    background-color: black;
+  }
+
+  .contrast .card-body {
+    background-color: black;
+  }
+
+  .contrast .card-header {
+    background-color: black;
+  }
+
+  .contrast .form-control {
+    background-color: black;
+    color: yellow;
+  }
 </style>
+
+<script>
+
+
+
+  function toggleContrast() {
+    var button = document.getElementById("contrastButton");
+    var contrast = document.getElementById('content');
+    var isContrastActive = contrast.classList.contains("contrast");
+
+    // Toggle the class
+    if (isContrastActive) {
+      contrast.classList.remove("contrast");
+      localStorage.setItem("contrastMode", "inactive");
+    } else {
+      contrast.classList.add("contrast");
+      localStorage.setItem("contrastMode", "active");
+    }
+  }
+
+  // Restore class state on page load
+  document.addEventListener("DOMContentLoaded", function() {
+    var button = document.getElementById("contrastButton");
+    var contrast = document.getElementById('content');
+    var contrastMode = localStorage.getItem("contrastMode");
+
+    if (contrastMode === "active") {
+      contrast.classList.add("contrast");
+    } else {
+      contrast.classList.remove("contrast");
+    }
+  });
+
+</script>

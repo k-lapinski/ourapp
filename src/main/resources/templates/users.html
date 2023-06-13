@@ -10,7 +10,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
 </head>
-<body>
+<body id="content">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/index}">StoreEverything</a>
@@ -42,7 +42,7 @@
       </ul>
     </div>
     <div class="d-flex">
-      <button class="btn btn-warning">Tryb kontrastu</button >
+      <button id="contrastButton" class="btn btn-warning" onclick="toggleContrast()">Contrast mode</button >
     </div>
   </div>
 </nav>
@@ -83,4 +83,65 @@
   a:hover {
     color: gray;
   }
+  .contrast {
+    color: yellow;
+    background-color: black;
+  }
+
+  .contrast td {
+    color: yellow;
+    background-color: black;
+  }
+
+  .contrast tr {
+    color: yellow;
+    background-color: black;
+  }
+
+  .contrast .card-body {
+    background-color: black;
+  }
+
+  .contrast .card-header {
+    background-color: black;
+  }
+
+  .contrast .form-control {
+    background-color: black;
+    color: yellow;
+  }
 </style>
+
+<script>
+
+
+
+  function toggleContrast() {
+    var button = document.getElementById("contrastButton");
+    var contrast = document.getElementById('content');
+    var isContrastActive = contrast.classList.contains("contrast");
+
+    // Toggle the class
+    if (isContrastActive) {
+      contrast.classList.remove("contrast");
+      localStorage.setItem("contrastMode", "inactive");
+    } else {
+      contrast.classList.add("contrast");
+      localStorage.setItem("contrastMode", "active");
+    }
+  }
+
+  // Restore class state on page load
+  document.addEventListener("DOMContentLoaded", function() {
+    var button = document.getElementById("contrastButton");
+    var contrast = document.getElementById('content');
+    var contrastMode = localStorage.getItem("contrastMode");
+
+    if (contrastMode === "active") {
+      contrast.classList.add("contrast");
+    } else {
+      contrast.classList.remove("contrast");
+    }
+  });
+
+</script>

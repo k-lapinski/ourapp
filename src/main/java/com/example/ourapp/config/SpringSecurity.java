@@ -37,6 +37,7 @@ public class SpringSecurity {
                                 .requestMatchers("/items/edit/**").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/items/cancel/**").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/myitems/**").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/myitems").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/user/**").hasRole("ADMIN")
                                 .requestMatchers("/mydata/**").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/allitems/**").hasAnyRole("ADMIN", "USER")

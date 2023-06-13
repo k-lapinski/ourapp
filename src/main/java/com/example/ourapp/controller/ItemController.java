@@ -18,10 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -69,16 +66,90 @@ public class ItemController {
     }
 
     @GetMapping("/myitems")
-    public String showMyItems(Model model){
+    public String showMyItems(
+            Model model,
+            @RequestParam(value = "sortField", defaultValue = "alpha") String sortField,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection,
+            @RequestParam(value = "filterType", required = false) String filterType
+    ){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         List<ItemDto> items = itemService.findMyItems(username);
+
+        if (filterType != null) {
+            if("category".equals(filterType)){
+                Map<String, Integer> categoryMap = new HashMap<>();
+
+                for(ItemDto item : items){
+                    String category = item.getCategory();
+                    if(categoryMap.containsKey(category)){
+                        categoryMap.put(category, categoryMap.get(category) + 1);
+                    }
+                    else{
+                        categoryMap.put(category, 1);
+                    }
+                }
+
+                List<String> mostPopularCategories = new ArrayList<>();
+                int maxCount = 0;
+                for(Map.Entry<String, Integer> entry : categoryMap.entrySet()){
+                    if(entry.getValue() > maxCount){
+                        mostPopularCategories.clear();
+                        mostPopularCategories.add(entry.getKey());
+                        maxCount = entry.getValue();
+                    }
+                    else if(entry.getValue() == maxCount){
+                        mostPopularCategories.add(entry.getKey());
+                    }
+                }
+
+                items = items.stream()
+                        .filter(i -> mostPopularCategories.contains(i.getCategory()))
+                        .collect(Collectors.toList());
+            }
+            else if("date".equals(filterType)){
+                items = items.stream()
+                        .filter(i -> i.getDate().isEqual(LocalDate.now()))
+                        .collect(Collectors.toList());
+            }
+
+        }
+
+        if("asc".equals(sortDirection)){
+            if("category".equals(sortField)){
+                items.sort(Comparator.comparing(ItemDto::getCategory));
+            }
+            else if("date".equals(sortField)){
+                items.sort(Comparator.comparing(ItemDto::getDate));
+            }
+            else if("alpha".equals(sortField)){
+                items.sort(Comparator.comparing(ItemDto::getName));
+            }
+        }
+        else if("desc".equals(sortDirection)){
+            if("category".equals(sortField)){
+                items.sort(Comparator.comparing(ItemDto::getCategory).reversed());
+            }
+            else if("date".equals(sortField)){
+                items.sort(Comparator.comparing(ItemDto::getDate).reversed());
+            }
+            else if("alpha".equals(sortField)){
+                items.sort(Comparator.comparing(ItemDto::getName).reversed());
+            }
+        }
         model.addAttribute("items", items);
         model.addAttribute("username", username);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("filterType", filterType);
         return "my-items";
     }
 
     @GetMapping("/allitems")
-    public String showAllItems(Model model, @RequestParam(defaultValue = "") String sortBy){
+    public String showAllItems(
+            Model model,
+            @RequestParam(defaultValue = "") String sortBy,
+            @RequestParam(value = "filterType", required = false) String filterType
+    ){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         List<ItemDto> items = itemService.findAllItems();
         if("datesort".equals(sortBy)) {
@@ -93,8 +164,48 @@ public class ItemController {
                 sharedItems.add(itm);
             }
         }
+
+        if (filterType != null) {
+            if("catergory".equals(filterType)){
+                Map<String, Integer> categoryMap = new HashMap<>();
+
+                for(ItemDto item : sharedItems){
+                    String category = item.getCategory();
+                    if(categoryMap.containsKey(category)){
+                        categoryMap.put(category, categoryMap.get(category) + 1);
+                    }
+                    else{
+                        categoryMap.put(category, 1);
+                    }
+                }
+
+                List<String> mostPopularCategories = new ArrayList<>();
+                int maxCount = 0;
+                for(Map.Entry<String, Integer> entry : categoryMap.entrySet()){
+                    if(entry.getValue() > maxCount){
+                        mostPopularCategories.clear();
+                        mostPopularCategories.add(entry.getKey());
+                        maxCount = entry.getValue();
+                    }
+                    else if(entry.getValue() == maxCount){
+                        mostPopularCategories.add(entry.getKey());
+                    }
+                }
+
+                sharedItems = sharedItems.stream()
+                        .filter(i -> mostPopularCategories.contains(i.getCategory()))
+                        .collect(Collectors.toList());
+            }
+            else if("date".equals(filterType)){
+                sharedItems = sharedItems.stream()
+                        .filter(i -> i.getDate().isEqual(LocalDate.now()))
+                        .collect(Collectors.toList());
+            }
+        }
+
         model.addAttribute("items", sharedItems);
         model.addAttribute("username", username);
+        model.addAttribute("filterType", filterType);
         return "all-items";
     }
 

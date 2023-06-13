@@ -640,3 +640,9 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/KLapi/O
 	at org.h2.mvstore.FileStore.open(FileStore.java:128)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:452)
 	... 134 more
+2023-06-13 23:38:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "'impreza u mnie o 20:00 impreza u mnie o 20:00 impreza u mnie o 20:00 impreza u ... (500)"; SQL statement:
+insert into items (id, category, date, description, link, name, owner_mail, shared_info, user_id) values (default, ?, ?, ?, ?, ?, ?, ?, ?) [22001-214]
+2023-06-13 23:38:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "'impreza u mnie o 20:00 impreza u mnie o 20:00 impreza u mnie o 20:00 impreza u ... (500)"; SQL statement:
+insert into items (id, category, date, description, link, name, owner_mail, shared_info, user_id) values (default, ?, ?, ?, ?, ?, ?, ?, ?) [22001-214]

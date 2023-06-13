@@ -1,0 +1,20 @@
+<configuration>
+    <!-- Definicja apendera do zapisywania logów w pliku -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs.txt</file> <!-- Nazwa pliku, w którym będą zapisywane logi -->
+        <append>true</append> <!-- Czy logi mają być dołączane do istniejącego pliku -->
+        <encoder>
+            <pattern>%date %-5level [%thread] %logger{36} - %msg%n</pattern> <!-- Format wiadomości logowania -->
+        </encoder>
+    </appender>
+
+    <!-- Definicja loggera dla kategorii, które mają być zapisywane w pliku -->
+    <logger name="com.example.ourapp" level="INFO">
+        <appender-ref ref="FILE" /> <!-- Powiązanie loggera z apenderem FILE -->
+    </logger>
+
+    <!-- Ustawienie domyślnego poziomu logowania (opcjonalne) -->
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

@@ -9,6 +9,8 @@ import com.example.ourapp.service.ItemService;
 import com.example.ourapp.service.ItemServiceImpl;
 import com.example.ourapp.service.UserService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +34,8 @@ public class ItemController {
     @Autowired
     private ItemServiceImpl itemServiceImpl;
 
+    private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
+
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
@@ -39,6 +43,8 @@ public class ItemController {
     @GetMapping("items/delete/{id}")
     public String deleteItem(@PathVariable(value = "id") Long id) {
         itemService.deleteItem(id);
+        logger.info("items/delete/"+id);
+
         return "redirect:/myitems";
     }
 
@@ -47,6 +53,8 @@ public class ItemController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("username", username);
         model.addAttribute("item", new ItemDto());
+        logger.info("/items");
+
         return "create-item";
     }
 
@@ -62,6 +70,8 @@ public class ItemController {
             item.setLink("");
         }
         itemService.saveItem(item);
+        logger.info("/items/save");
+
         return "redirect:/myitems";
     }
 
@@ -141,6 +151,8 @@ public class ItemController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("filterType", filterType);
+        logger.info("/myitems");
+
         return "my-items";
     }
 
@@ -206,6 +218,8 @@ public class ItemController {
         model.addAttribute("items", sharedItems);
         model.addAttribute("username", username);
         model.addAttribute("filterType", filterType);
+        logger.info("/allitems");
+
         return "all-items";
     }
 
@@ -216,6 +230,8 @@ public class ItemController {
             itemDto.setId(id);
         itemDto.setSharedInfo(true);
             itemService.saveItem(itemDto);
+        logger.info("/items/share/"+id);
+
         return "redirect:/myitems";
     }
 
@@ -225,6 +241,7 @@ public class ItemController {
         ItemDto itemDto = itemServiceImpl.mapToItemDto(item);
         itemDto.setDate(item.getDate());
         model.addAttribute("item", itemDto);
+        logger.info("/items/edit/"+id);
 
         return "edit-item-form";
     }
@@ -234,6 +251,7 @@ public class ItemController {
                            BindingResult result,
                            Model model){
         itemServiceImpl.saveItem(itemDto);
+        logger.info("/items/edit/save");
 
         return "redirect:/myitems?success";
     }

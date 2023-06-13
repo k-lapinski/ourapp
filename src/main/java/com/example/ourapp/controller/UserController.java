@@ -8,6 +8,8 @@ import com.example.ourapp.service.ItemService;
 import com.example.ourapp.service.ItemServiceImpl;
 import com.example.ourapp.service.UserServiceImpl;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -27,16 +29,20 @@ public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @GetMapping("/user/{email}")
     public String showUser(@PathVariable("email") String email, Model model) {
         Optional<User> user = Optional.ofNullable(userServiceImpl.findUserByEmail(email));
         model.addAttribute("user", user);
+        logger.info("/user/"+email);
         return "user-details";
     }
 
     @GetMapping("/user/delete/{email}")
     public String deleteUser(@PathVariable(value = "email")  String email) {
         userServiceImpl.deleteUser(email);
+        logger.info("/user/delete/"+email);
         return "redirect:/users";
     }
 
@@ -45,7 +51,7 @@ public class UserController {
         User user = userServiceImpl.findUserByEmail(email);
         UserDto userDto = userServiceImpl.mapToUserDto(user);
         model.addAttribute("user", userDto);
-
+        logger.info("/user/edit/"+email);
         return "edit-user-form";
     }
 
@@ -57,7 +63,7 @@ public class UserController {
         userDto.setLastName(userDto.getLastName().substring(0, 1).toUpperCase()+userDto.getLastName().substring(1));
         userServiceImpl.editUser(userDto, role);
 
-
+        logger.info("/user/edit/save");
         return "redirect:/users?success";
     }
 
@@ -70,6 +76,8 @@ public class UserController {
         String role = roles.getName();
         model.addAttribute("user", userDto);
         model.addAttribute("role", role);
+        logger.info("/mydata");
+
         return "my-data-form";
     }
 
@@ -81,6 +89,7 @@ public class UserController {
         userDto.setLastName(userDto.getLastName().substring(0, 1).toUpperCase()+userDto.getLastName().substring(1));
         userServiceImpl.editUser(userDto, role);
 
+        logger.info("/mydata/saveme");
         return "redirect:/mydata?success";
     }
 
